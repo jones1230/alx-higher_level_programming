@@ -4,4 +4,4 @@ if (typeof argPos === 'undefined') {
   console.log('No argument');
 } else {
   console.log(argPos);
-};
+}
