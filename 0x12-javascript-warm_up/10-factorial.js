@@ -1,5 +1,5 @@
 #!/usr/bin/node
-let num = process.argv[2];
+const num = process.argv[2];
 function factorial (num) {
   if (num < 0) {
     return (-1);
