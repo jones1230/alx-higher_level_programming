@@ -1,10 +1,8 @@
 #!/usr/bin/node
-const num = process.argv[2];
-function factorial (num) {
-  if (num === 0 || isNaN(num)) {
-    return 1;
-  } else {
-    return (num * factorial(num - 1));
-  }
+if (process.argv.length <= 3) {
+  console.log('0');
+} else {
+  const arr = process.argv.slice(2).map(Number);
+  const second = arr.sort(function (a, b) { return b - a; })[1];
+  console.log(second);
 }
-console.log(factorial(num));
