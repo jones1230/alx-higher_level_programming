@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Finding peak """
 def find_peak(list_of_integers):
+    """ Returning a peak in list of unsorted inegers """
     if len(list_of_integers) == 0:
         return None
     if len(list_of_integers) == 1:
