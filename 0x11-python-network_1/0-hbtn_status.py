@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This script will fetch data from
-    -https://alx-intranet.hbtn.io/status
+    https://alx-intranet.hbtn.io/status
 """
 
 
