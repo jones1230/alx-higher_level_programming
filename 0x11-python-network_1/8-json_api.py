@@ -1,23 +1,28 @@
 #!/usr/bin/python3
 """
-takes in a letter and sends a POST request to http://0.0.0.0:5000/search_user
-with the letter as a parameter
+Send a POST request to localhost:5000/search_user
+with a query string and print the JSON result to
+standard output
 """
-if __name__ == '__main__':
-    import requests
-    from sys import argv
-    if len(argv) == 2:
-        q = argv[1]
-    else:
-        q = ""
-    r = requests.post('http://0.0.0.0:5000/search_user', data={'q': q})
+
+from requests import post
+from sys import argv
+
+
+def send_query(query_string: str) -> str:
+    server = "http://0.0.0.0:5000/search_user"
+    response = post(server, data={'q': query_string}).text
     try:
-        r_dict = r.json()
-        id = r_dict.get('id')
-        name = r_dict.get('name')
-        if len(r_dict) == 0 or not id or not name:
-            print("No result")
-        else:
-            print("[{}] {}".format(r_dict.get('id'), r_dict.get('name')))
-    except:
-        print("Not a valid JSON")
+        resp_json = eval(response)
+        if len(resp_json) != 0:
+            return "[{}] {}".format(resp_json.get('id'), resp_json.get('name'))
+        return "No result"
+    except Exception as e:
+        return "Not a valid JSON"
+
+
+if __name__ == "__main__":
+    if len(argv) >= 2:
+        print(send_query(argv[1]))
+    else:
+        print(send_query(""))
