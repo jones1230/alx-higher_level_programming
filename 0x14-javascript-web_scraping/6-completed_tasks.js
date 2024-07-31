@@ -1,40 +1,25 @@
 #!/usr/bin/node
+// Script that compute the number of
+// tasks completed by user id
 
 const request = require('request');
+const url = process.argv[2];
 
-// Define the API URL
-const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
+request(url, (error, response, body) => {
+  if (error) console.error(error);
+  if (response && response.statusCode === 200) {
+    const toDos = JSON.parse(body);
+    const output = {};
 
-// Make a GET request to the API
-request.get(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error('Error making the request:', error);
-    process.exit(1);
-  }
-
-  try {
-    // Parse the JSON response
-    const todos = JSON.parse(body);
-
-    // Create an object to store the counts of completed tasks by user ID
-    const completedTasksByUser = {};
-
-    // Filter and count completed tasks
-    todos.forEach((todo) => {
-      if (todo.completed) {
-        if (!completedTasksByUser[todo.userId]) {
-          completedTasksByUser[todo.userId] = 1;
+    for (const toDo of toDos) {
+      if (toDo.completed === true) {
+        if (output[toDo.userId] === undefined) {
+          output[toDo.userId] = 1;
         } else {
-          completedTasksByUser[todo.userId]++;
+          output[toDo.userId]++;
         }
       }
-    });
-
-    // Print the number of completed tasks by each user
-    console.log(completedTasksByUser);
-    // console.log(JSON.stringify(completedTasksByUser, null, 2));
-  } catch (parseError) {
-    console.error('Error parsing JSON response:', parseError);
-    process.exit(1);
+    }
+    console.log(output);
   }
 });
